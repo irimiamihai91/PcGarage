@@ -16,6 +16,7 @@ namespace PcGarage.BusinessLogic
         public SqlProductManager()
         {
             pge = new PcGarageEntities();
+            //test
         }
 
         public Product Get(int productId)
