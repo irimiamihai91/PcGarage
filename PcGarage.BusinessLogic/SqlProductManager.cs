@@ -19,7 +19,11 @@ namespace PcGarage.BusinessLogic
         public SqlProductManager()
         {
             pge = new PcGarageEntities();
+
             pga = new PcGarageAdoNet();
+
+    
+
         }
 
         public IList<Product> GetAllProductsAdo()
