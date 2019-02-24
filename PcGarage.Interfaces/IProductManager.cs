@@ -9,10 +9,6 @@ namespace PcGarage.Interfaces
 {
     public interface IProductManager
     {
-        void Save(Product product);
-
-        Product Get(int productId);
-
-        IList<Product> GetAll();
+        
     }
 }
