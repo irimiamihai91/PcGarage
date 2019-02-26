@@ -16,11 +16,11 @@ namespace PcGarage.BusinessLogic
         {
             string connectionString = ConfigurationManager.ConnectionStrings["PcGarageEntities"].ConnectionString;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
+            SqlConnection conn = new SqlConnection(connectionString);
+
                 conn.Open();
                 return conn;
-            }
+            
             
         }
 
@@ -32,6 +32,12 @@ namespace PcGarage.BusinessLogic
 
             return param;
         }
+        public void CloseConnection(SqlConnection conn)
+        {
+            conn.Close();
+        }
+
+
     }
 
     

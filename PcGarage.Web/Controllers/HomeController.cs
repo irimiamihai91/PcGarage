@@ -11,15 +11,17 @@ namespace PcGarage.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IProductManager manager;
+
+        private ICategoryManager manager;
 
         public HomeController()
         {
-            manager = new SqlProductManager();
+            manager = new SqlCategoryManager();
         }
         public ActionResult Index()
         {
-            return View();
+            List<Category> categories = manager.GetAllCategoryEntity().ToList();
+            return View(categories);
         }
 
         public ActionResult About()
