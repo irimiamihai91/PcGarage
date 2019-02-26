@@ -9,6 +9,23 @@ namespace PcGarage.Interfaces
 {
     public interface IProductManager
     {
-        
+        IList<Product> GetAllProductsAdo();
+
+        IList<Product> GetAllProductsEntity();
+
+        Product GetProductAdo(int productId);
+
+        Product GetProductEntity(int productId);
+
+        void AddProductAdo(Product product);
+
+        void AddProductEntity(Product product);
+
+        void DeleteProductAdo(int productId);
+
+        void DeleteProductEntity(int productId);
+
+        void SaveProductAdo(Product product);
+
     }
 }

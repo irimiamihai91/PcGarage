@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PcGarageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PcGarageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Card">
           <Key>
             <PropertyRef Name="CardId" />
@@ -69,6 +69,7 @@
           <Property Name="VideoMemory" Type="varchar(max)" />
           <Property Name="HDD" Type="varchar(max)" />
           <Property Name="Camera" Type="varchar" MaxLength="200" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -254,8 +255,7 @@
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PcGarageModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -337,6 +337,7 @@
           <NavigationProperty Name="Manufacturer" Relationship="Self.FK_Manufacturer_PRODUCT_ManufacturerId" FromRole="Product" ToRole="Manufacturer" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_Product_Rating_ProductId" FromRole="Product" ToRole="Rating" />
           <NavigationProperty Name="Transactions" Relationship="Self.FK_Product_Transaction_ProductId" FromRole="Product" ToRole="Transactions" />
+          <Property Name="Photo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -587,6 +588,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="PcGarageModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />

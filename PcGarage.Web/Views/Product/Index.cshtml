@@ -1,0 +1,142 @@
+﻿@model IEnumerable<PcGarage.Models.Product>
+
+@using PcGarage.Models;
+<br />
+
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="~/Content/css/shop-homepage.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1><b style="font-family:'Bernard MT'">  Product List</b></h1>
+    @*<div>
+        <ul>
+            @foreach (Product product in @Model)
+            {
+                <li>
+                    @Html.ActionLink(product.ProductName, "Details", new { id = product.ProductId })
+                </li>
+            }
+        </ul>
+
+    </div>*@
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h1 class="my-4"><b style="color:red;font-family:'Bernard MT'">Pc</b><b style="font-family:'Bernard MT'">Garage</b></h1>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <a href="http://localhost:57665/Product?categoryId=1">Laptop</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="http://localhost:57665/Product?categoryId=2">Laptop Gaming</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="http://localhost:57665/Product?categoryId=3">Telefon</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="http://localhost:57665/Product?categoryId=4">Tableta</a>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!-- /.col-lg-3 -->
+            <div class="col-lg-9">
+                <h6><b style="font-family:'Bernard MT'" ></b>@Html.ActionLink("Create new Product","Create")</h6>
+                <br />
+                <div class="row">
+                    @foreach (Product product in @Model)
+                    {
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="http://localhost:57665/Product/Details/1"><img class="card-img-top" src="@Url.Content(@product.Photo)"/></a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        @Html.ActionLink(product.ProductName, "Details", new { id = product.ProductId })
+                                    </h4>
+                                    <h5>3880 RON</h5>
+                                    <p class="card-text">@product.Display</p>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                                    <small class="text-muted">@Html.ActionLink("Edit", "Details","Product",new { id = product.ProductId })</small>
+                                    <small class="text-muted">@Html.ActionLink("Details", "Details", new { id = product.ProductId })</small>
+                                    <small class="text-muted">@Html.ActionLink("Delete", "Create","Product", new { id = product.ProductId })</small>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">Item Six</a>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.col-lg-9 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+
+    <div>
+        <p>
+            @Html.ActionLink("Back to Home", "Index", "Home")
+        </p>
+    </div>
+    <!-- /.container -->
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; PcGarage 2019</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Content/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

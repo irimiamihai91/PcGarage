@@ -35,6 +35,7 @@ namespace PcGarage.Models
         public string VideoMemory { get; set; }
         public string HDD { get; set; }
         public string Camera { get; set; }
+        public string Photo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart> Carts { get; set; }

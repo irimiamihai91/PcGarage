@@ -8,17 +8,18 @@ using PcGarage.Models;
 using PcGarage.DataAcess;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Web.Mvc;
 
 namespace PcGarage.BusinessLogic
 {
     public class SqlProductManager : IProductManager
     {
-        private PcGarageEntities pge;
+        private DataAcess.PcGarageEntities pge;
         private PcGarageAdoNet pga;
 
         public SqlProductManager()
         {
-            pge = new PcGarageEntities();
+            pge = new DataAcess.PcGarageEntities();
             pga = new PcGarageAdoNet();
         }
 
@@ -32,27 +33,31 @@ namespace PcGarage.BusinessLogic
 
             command.CommandType = System.Data.CommandType.StoredProcedure;
 
-            SqlDataReader reader = command.ExecuteReader();
+            using (SqlDataReader reader = command.ExecuteReader()) {
 
-            while (reader.Read())
-            {
-                Product product = new Product();
-                product.ProductId = Convert.ToInt32(reader["ProductId"]);
-                product.ProductName = (reader["ProductName"]).ToString();
-                product.CategoryId = Convert.ToInt32(reader["CategoryId"]);
-                product.ManufacturerId = Convert.ToInt32(reader["ManufacturerId"]);
-                product.Description = (reader["Description"].ToString());
-                product.Stock = Convert.ToInt32(reader["Stock"]);
-                product.Price = Convert.ToInt32(reader["Price"]);
-                product.Display = (reader["Display"].ToString());
-                product.Processor = (reader["Processor"].ToString());
-                product.Memory = (reader["Memory"].ToString());
-                product.VideoMemory = (reader["VideoMemory"].ToString());
-                product.HDD = (reader["HDD"].ToString());
-                product.Camera = (reader["Camera"].ToString());
+                while (reader.Read())
+                {
+                    Product product = new Product();
+                    product.ProductId = Convert.ToInt32(reader["ProductId"]);
+                    product.ProductName = (reader["ProductName"]).ToString();
+                    product.CategoryId = Convert.ToInt32(reader["CategoryId"]);
+                    product.ManufacturerId = Convert.ToInt32(reader["ManufacturerId"]);
+                    product.Description = (reader["Description"].ToString());
+                    product.Stock = Convert.ToInt32(reader["Stock"]);
+                    product.Price = Convert.ToInt32(reader["Price"]);
+                    product.Display = (reader["Display"].ToString());
+                    product.Processor = (reader["Processor"].ToString());
+                    product.Memory = (reader["Memory"].ToString());
+                    product.VideoMemory = (reader["VideoMemory"].ToString());
+                    product.HDD = (reader["HDD"].ToString());
+                    product.Camera = (reader["Camera"].ToString());
 
-                productList.Add(product);
-            }
+                    productList.Add(product);
+
+                }
+                }
+
+            pga.CloseConnection(conn);
 
             return productList;
 
@@ -62,6 +67,7 @@ namespace PcGarage.BusinessLogic
             //Select* from Product
             //End
 
+            
         }
 
         public IList<Product> GetAllProductsEntity()
@@ -76,10 +82,11 @@ namespace PcGarage.BusinessLogic
         {
 
 
-            try
-            {
+           
+           
                 SqlConnection conn = pga.OpenConnection();
                 SqlCommand command = new SqlCommand("spGetProduct", conn);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
                 SqlParameter productIdParam = pga.CreateParameterByValueAndName(productId, "@productId");
                 command.Parameters.Add(productIdParam);
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -102,19 +109,15 @@ namespace PcGarage.BusinessLogic
                         product.HDD = (reader["HDD"].ToString());
                         product.Camera = (reader["Camera"].ToString());
 
-                        return product;
+                        
+
+                         return product;
+
+                        
                     }
                 }
-            }
+            pga.CloseConnection(conn);
 
-            catch (Exception e)
-            {
-
-                throw e; ///de lucrat la redirectul exceptiilor
-
-
-
-            }
 
             return null;
 
@@ -129,14 +132,14 @@ namespace PcGarage.BusinessLogic
 
         public Product GetProductEntity(int productId)
         {
-            Product product = pge.Products.Single(p => p.ProductId == productId);
+            Product product = pge.Products.Single(p =>p.ProductId == productId);
             return product;
         }
 
         public void AddProductAdo(Product product)
         {
             SqlConnection conn = pga.OpenConnection();
-            SqlCommand command = new SqlCommand("spAddProduct", conn);
+            SqlCommand command = new SqlCommand("spAddProduct1", conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             SqlParameter nameParam = pga.CreateParameterByValueAndName(product.ProductName, "@ProductName");
             SqlParameter categoryIdParam = pga.CreateParameterByValueAndName(product.CategoryId, "@CategoryId");
@@ -150,6 +153,7 @@ namespace PcGarage.BusinessLogic
             SqlParameter videoMemoryParam = pga.CreateParameterByValueAndName(product.VideoMemory, "@VideoMemory");
             SqlParameter HDDParam = pga.CreateParameterByValueAndName(product.HDD, "@HDD");
             SqlParameter CameraParam = pga.CreateParameterByValueAndName(product.Camera, "@Camera");
+            SqlParameter photoParam = pga.CreateParameterByValueAndName(product.Photo, "@Photo");
             command.Parameters.Add(nameParam);
             command.Parameters.Add(categoryIdParam);
             command.Parameters.Add(maufacturerIdParam);
@@ -162,7 +166,9 @@ namespace PcGarage.BusinessLogic
             command.Parameters.Add(videoMemoryParam);
             command.Parameters.Add(HDDParam);
             command.Parameters.Add(CameraParam);
+            command.Parameters.Add(photoParam);
             command.ExecuteNonQuery();
+            pga.CloseConnection(conn);
 
             //            Create Procedure spAddProduct
             //@ProductName varchar(100),
@@ -181,8 +187,29 @@ namespace PcGarage.BusinessLogic
             //begin
             //Insert into Product(ProductName, CategoryId, ManufacturerId, Description, Stock, Price, Display, Processor, Memory, VideoMemory, HDD, Camera)
 
-            //            Values(@ProductName, @CategoryId, @ManufacturerId, @Description, @Stock, @Price, @Display, @Processor, @Memory, @VideoMemory, @HDD, @Camera)
+            //Values(@ProductName, @CategoryId, @ManufacturerId, @Description, @Stock, @Price, @Display, @Processor, @Memory, @VideoMemory, @HDD, @Camera)
             //End
+
+//            Create Procedure spAddProduct1
+//@ProductName varchar(100),
+//            @CategoryId int,
+//            @ManufacturerId int,
+//            @Description varchar(max),
+//            @Stock int, --trigger--
+//            @Price decimal,
+//            @Display varchar(max),
+//            @Processor varchar(max),
+//            @Memory varchar(max),
+//            @VideoMemory varchar(max),
+//            @HDD varchar(max),
+//            @Camera varchar(200),
+//			@Photo varchar(200)
+//            As
+//            Begin
+//            Insert into Product(ProductName, CategoryId, ManufacturerId, Description, Stock, Price, Display, Processor, Memory, VideoMemory, HDD, Camera, Photo)
+
+//            Values(@ProductName, @CategoryId, @ManufacturerId, @Description, @Stock, @Price, @Display, @Processor, @Memory, @VideoMemory, @HDD, @Camera, @Photo)
+//            End
 
 
         }
@@ -202,6 +229,7 @@ namespace PcGarage.BusinessLogic
             SqlParameter productIdParam = pga.CreateParameterByValueAndName(productId, "@ProductId");
             command.Parameters.Add(productIdParam);
             command.ExecuteNonQuery();
+            pga.CloseConnection(conn);
 
             //Create Procedure spDeleteProduct @ProductId int
             //    as
@@ -280,14 +308,10 @@ namespace PcGarage.BusinessLogic
             command.Parameters.Add(HDDParam);
             command.Parameters.Add(CameraParam);
             command.ExecuteNonQuery();
+            pga.CloseConnection(conn);
 
         }
 
-        public void SaveProductEntity(Product product)
-        {
-
-        }
-
-
+       
     }
 }
