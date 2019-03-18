@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlCategoryManager.cs" />
+    <Compile Include="SqlCategoryProductManager.cs" />
     <Compile Include="SqlManufacturerManager.cs" />
     <Compile Include="SqlProductManager.cs" />
   </ItemGroup>

@@ -77,14 +77,14 @@
                                     <h4 class="card-title">
                                         @Html.ActionLink(product.ProductName, "Details", new { id = product.ProductId })
                                     </h4>
-                                    <h5>3880 RON</h5>
+                                    <h5>@product.Price RON</h5>
                                     <p class="card-text">@product.Display</p>
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                                    <small class="text-muted">@Html.ActionLink("Edit", "Details","Product",new { id = product.ProductId })</small>
+                                    <small class="text-muted">@Html.ActionLink("Edit", "Edit",new { id = product.ProductId })</small>
                                     <small class="text-muted">@Html.ActionLink("Details", "Details", new { id = product.ProductId })</small>
-                                    <small class="text-muted">@Html.ActionLink("Delete", "Create","Product", new { id = product.ProductId })</small>
+                                    <small class="text-muted">@Html.ActionLink("Delete", "Delete", new { id = product.ProductId })</small>
 
                                 </div>
                             </div>

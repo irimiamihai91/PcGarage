@@ -11,7 +11,8 @@ namespace PcGarage.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,20 +22,33 @@ namespace PcGarage.Models
             this.Ratings = new HashSet<Rating>();
             this.Transactions = new HashSet<Transaction>();
         }
-    
+
         public int ProductId { get; set; }
+
         public string ProductName { get; set; }
+
         public int CategoryId { get; set; }
+
         public int ManufacturerId { get; set; }
+
         public string Description { get; set; }
+
         public int Stock { get; set; }
+
         public decimal Price { get; set; }
+
         public string Display { get; set; }
+
         public string Processor { get; set; }
+
         public string Memory { get; set; }
+
         public string VideoMemory { get; set; }
+
         public string HDD { get; set; }
+
         public string Camera { get; set; }
+
         public string Photo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

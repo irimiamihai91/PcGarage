@@ -27,5 +27,7 @@ namespace PcGarage.Interfaces
 
         void SaveProductAdo(Product product);
 
+        void UpdateProduct(Product product);
+
     }
 }

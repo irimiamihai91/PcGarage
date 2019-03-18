@@ -19,16 +19,9 @@ namespace PcGarage.BusinessLogic
 
         public SqlProductManager()
         {
-
             pge = new DataAcess.PcGarageEntities();
 
-            pge = new PcGarageEntities();
-
-
             pga = new PcGarageAdoNet();
-
-    
-
         }
 
         public IList<Product> GetAllProductsAdo()
@@ -75,15 +68,62 @@ namespace PcGarage.BusinessLogic
             //Select* from Product
             //End
 
-            
         }
 
         public IList<Product> GetAllProductsEntity()
         {
             List<Product> productList = pge.Products.ToList();
-            pge.SaveChanges();
+            
 
             return productList;
+        }
+
+        public Product GetProductByNameAdo(string ProductName)
+        {
+//            Create Procedure GetProductByName
+//@ProductName varchar(100)
+//as
+//begin
+//select* from Product
+//where ProductName like '%' + @ProductName + '%'
+//end
+
+            SqlConnection conn = pga.OpenConnection();
+            SqlCommand command = new SqlCommand("GetProductByName", conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            SqlParameter productNameParam = pga.CreateParameterByValueAndName(ProductName, "@ProductName");
+            command.Parameters.Add(productNameParam);
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    Product product = new Product();
+                    product.ProductId = Convert.ToInt32(reader["ProductId"]);
+                    product.ProductName = (reader["ProductName"]).ToString();
+                    product.CategoryId = Convert.ToInt32(reader["CategoryId"]);
+                    product.ManufacturerId = Convert.ToInt32(reader["ManufacturerId"]);
+                    product.Description = (reader["Description"].ToString());
+                    product.Stock = Convert.ToInt32(reader["Stock"]);
+                    product.Price = Convert.ToInt32(reader["Price"]);
+                    product.Display = (reader["Display"].ToString());
+                    product.Processor = (reader["Processor"].ToString());
+                    product.Memory = (reader["Memory"].ToString());
+                    product.VideoMemory = (reader["VideoMemory"].ToString());
+                    product.HDD = (reader["HDD"].ToString());
+                    product.Camera = (reader["Camera"].ToString());
+                    product.Photo = (reader["Photo"].ToString());
+
+
+                    return product;
+
+
+                }
+            }
+            pga.CloseConnection(conn);
+
+
+            return null;
         }
 
         public Product GetProductAdo(int productId)
@@ -142,6 +182,66 @@ namespace PcGarage.BusinessLogic
         {
             Product product = pge.Products.Single(p =>p.ProductId == productId);
             return product;
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            //            Create Procedure UpdateProduct
+            //            @ProductId int,
+            //            @ProductName varchar(100),
+            //            @CategoryId int,
+            //            @ManufacturerId int,
+            //            @Description varchar(max),
+            //            @Stock int, --trigger--
+            //            @Price decimal,
+            //            @Display varchar(max),
+            //            @Processor varchar(max),
+            //            @Memory varchar(max),
+            //            @VideoMemory varchar(max),
+            //            @HDD varchar(max),
+            //            @Camera varchar(200),
+            //			@Photo nvarchar(100)
+            //AS
+            //Begin
+            //Update Product
+            //Set ProductName = @ProductName, CategoryId = @CategoryId, ManufacturerId = @ManufacturerId,
+            //Description = @Description, Stock = @Stock, Price = @Price, Display = @Display, Processor = @Processor,
+            //Memory = @Memory, VideoMemory = @VideoMemory, HDD = @HDD, Camera = @Camera, Photo = @Photo
+            //Where ProductId = @ProductId
+            //end
+            SqlConnection conn = pga.OpenConnection();
+            SqlCommand command = new SqlCommand("UpdateProduct", conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            SqlParameter idParam = pga.CreateParameterByValueAndName(product.ProductId, "@ProductId");
+            SqlParameter nameParam = pga.CreateParameterByValueAndName(product.ProductName, "@ProductName");
+            SqlParameter categoryIdParam = pga.CreateParameterByValueAndName(product.CategoryId, "@CategoryId");
+            SqlParameter maufacturerIdParam = pga.CreateParameterByValueAndName(product.ManufacturerId, "@ManufacturerId");
+            SqlParameter descriptionParam = pga.CreateParameterByValueAndName(product.Description, "@Description");
+            SqlParameter stockParam = pga.CreateParameterByValueAndName(product.Stock, "@Stock");
+            SqlParameter priceParam = pga.CreateParameterByValueAndName(product.Price, "@Price");
+            SqlParameter displayParam = pga.CreateParameterByValueAndName(product.Display, "@Display");
+            SqlParameter processorParam = pga.CreateParameterByValueAndName(product.Processor, "@Processor");
+            SqlParameter memoryParam = pga.CreateParameterByValueAndName(product.Memory, "@Memory");
+            SqlParameter videoMemoryParam = pga.CreateParameterByValueAndName(product.VideoMemory, "@VideoMemory");
+            SqlParameter HDDParam = pga.CreateParameterByValueAndName(product.HDD, "@HDD");
+            SqlParameter CameraParam = pga.CreateParameterByValueAndName(product.Camera, "@Camera");
+            SqlParameter photoParam = pga.CreateParameterByValueAndName(product.Photo, "@Photo");
+            command.Parameters.Add(idParam);
+            command.Parameters.Add(nameParam);
+            command.Parameters.Add(categoryIdParam);
+            command.Parameters.Add(maufacturerIdParam);
+            command.Parameters.Add(descriptionParam);
+            command.Parameters.Add(stockParam);
+            command.Parameters.Add(priceParam);
+            command.Parameters.Add(displayParam);
+            command.Parameters.Add(processorParam);
+            command.Parameters.Add(memoryParam);
+            command.Parameters.Add(videoMemoryParam);
+            command.Parameters.Add(HDDParam);
+            command.Parameters.Add(CameraParam);
+            command.Parameters.Add(photoParam);
+            command.ExecuteNonQuery();
+            pga.CloseConnection(conn);
         }
 
         public void AddProductAdo(Product product)

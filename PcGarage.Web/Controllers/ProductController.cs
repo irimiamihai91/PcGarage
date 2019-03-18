@@ -26,7 +26,7 @@ namespace PcGarage.Web.Controllers
 
         public ActionResult Index(int categoryId)
         {
-            IList<Product> products = productManager.GetAllProductsAdo().Where(cat => cat.CategoryId == categoryId).ToList();
+            IList<Product> products = productManager.GetAllProductsEntity().Where(cat => cat.CategoryId == categoryId).ToList();
             return View(products);
         }
 
@@ -51,9 +51,51 @@ namespace PcGarage.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                productManager.AddProductAdo(product);
+                productManager.AddProductEntity(product);
+                return Redirect(@"http://localhost:57665/Product?categoryId=1");
             }
-            return Redirect("Home/Index");
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            ViewBag.CategoryList = categoryManager.GetCategoriesListForDropdownList();
+            ViewBag.ManufacturerList = manufacturerManager.GetManufacturerListForDropdownList();
+
+            Product product = productManager.GetProductEntity(id);
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                productManager.UpdateProduct(product);
+                return Redirect(@"http://localhost:57665/Product?categoryId=1");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+
+            Product product = productManager.GetProductEntity(id);
+
+            return View(product);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult Delete_Post(int id)
+        {
+
+            productManager.DeleteProductAdo(id);
+
+            return Redirect(@"http://localhost:57665/Product?categoryId=1");
         }
 
 

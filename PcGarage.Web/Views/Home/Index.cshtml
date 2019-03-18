@@ -1,6 +1,6 @@
-﻿@using PcGarage.Models;
+﻿@*@using PcGarage.Models;*@
 
-@model IEnumerable<PcGarage.Models.Category>
+@model PcGarage.Models.CategoryProductModel
 @{
     ViewBag.Title = "Home";
 }
@@ -61,6 +61,7 @@
     </nav>*@
 <html>
 <head>
+    
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -74,6 +75,18 @@
     <link href="~/Content/css/shop-homepage.css" rel="stylesheet">
 </head>
 <body>
+    <br />
+    <br />
+    <div class="col-sm-3 col-md-3">
+        <form class="navbar-form" role="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -82,7 +95,7 @@
                     <table class="table">
                         <thead>
 
-                            @{foreach (Category category in @Model)
+                            @{foreach (var category in Model.categories)
 
                                 {
                                     <tr>
@@ -90,9 +103,10 @@
                                             @Html.ActionLink(category.CategoryName, "Index", "Product", new { categoryId = category.CategoryId }, null)
                                         </td>
                                     </tr>
-                                }}
+                                }
+                            }
 
-                            </thead>
+                        </thead>
 
                     </table>
                 </div>
@@ -105,113 +119,37 @@
                 }
                 <div class="row">
 
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="http://localhost:57665/Product/Details/1"><img class="card-img-top" src="~/Content/Image/Produse/prod1.jpg" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="http://localhost:57665/Product/Details/1">Laptop Lenovo IdeaPad 330-15IKB</a>
-                                </h4>
-                                <h5>3880 RON</h5>
-                                <p class="card-text">Laptop Lenovo IdeaPad 330-15IKB cu procesor Intel® Core™ i5-8250U pana la 3.40 GHz, Kaby Lake R, 15.6", Full HD, 8GB, 512GB SSD, Intel® UHD Graphics 620, Free DOS, Platinum Grey Imbunatatiti-va ziua.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
+                    @{ foreach (var prod in Model.products)
+                        {
 
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Two</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Three</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Four</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Five</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <a href=""><img class="card-img-top" src="@Url.Content(prod.Photo)" alt=""></a>
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            @*<a href="http://localhost:57665/Product/Details/1">@prod.ProductName</a>*@ @Html.ActionLink(@prod.ProductName, "Details", "Product", new { id = @prod.ProductId }, null)
+                                        </h4>
+                                        <h5>@prod.Price RON</h5>
+                                        <p class="card-text">@prod.Description </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                                    </div>
+                                </div>
                             </div>
 
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Six</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
+                        }
+                    }
                 </div>
-                <!-- /.row -->
 
             </div>
-            <!-- /.col-lg-9 -->
+            <!-- /.row -->
 
         </div>
-        <!-- /.row -->
+        <!-- /.col-lg-9 -->
 
     </div>
+    <!-- /.row -->
     <!-- /.container -->
     <!-- Footer -->
     <footer class="py-5 bg-dark">
